@@ -4,6 +4,7 @@
 # 9/17/21
 
 import os
+import subprocess
 
 # Moves the cursor back to the a position
 def gethome(up,left,count_r, count_c):
@@ -114,10 +115,21 @@ def main():
     """)
     # Get IP address input
     try:
-        IP = str(input("\nEnter Roku IP Address: "))
+        IP = str(input("\nEnter Roku IP Address. If unknown, press enter for nmap scan automation: "))
     except KeyError:
         pass
-    
+    # Automates nmap search for Roku IP address onnetwork
+    if IP == '':
+        # Finds the gateway IP address
+        proc = subprocess.Popen("ip route | grep -E -o \"default.+([0-9]{1,3}[\.]){3}[0-9]{1,3}\" | sed 's/^default via //'",shell=True, stdout=subprocess.PIPE)
+        gateway = str(proc.communicate()[0].strip())[2:-1]
+        print("Gateway found at: "+gateway)
+
+        # Finds the Roku IP address on network from quick nmap scan 
+        proc = subprocess.Popen("nmap -sP -n "+gateway+"/24 | grep -B 2 \"Roku\" | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\"",shell=True, stdout=subprocess.PIPE)
+        IP = str(proc.communicate()[0].strip())[2:-1]
+        print("Roku IP address found at: "+IP)
+
     # Curl request strings with IP address added
     # These are remote control button requests
     up ="curl -d '' \"http://"+IP+":8060/keypress/up\""
