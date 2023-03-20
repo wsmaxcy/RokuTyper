@@ -7,13 +7,31 @@ import os
 import subprocess
 
 # Moves the cursor back to the a position
-def gethome(up,left,count_r, count_c):
-
-    for n in range(0,count_r):
+def gethome(message,up,left,count_r, count_c):
+    # Sends cursor home if last postion was a space
+    if (message[-1] == ' '):
         os.system(left)
-    for n in range(0,count_c):
-        os.system(up)
-    return
+        for n in range(0,6):
+            os.system(up)
+        return
+    else:
+        for n in range(0,count_r):
+            os.system(left)
+        for n in range(0,count_c):
+            os.system(up)
+        return
+
+# If user didnt put a space at the end funciton puts it for them to set up the next enquiry
+def getspace(message,down,select,right,left,up):
+    if (message[-1] != ' '):
+        for n in range(0,6):
+            os.system(down)
+        os.system(right)
+        os.system(select)
+        os.system(left)
+        for n in range(0,6):
+            os.system(up)
+        
 
 # Moves the cursor to correct row
 def leftright(row_mov,left,right):
@@ -90,8 +108,10 @@ def printer(message,up,down,right,left,select):
         
         # Updates position of cursor to be correct for the next letter
         cur_pos = active
-    gethome(up,left,count_r, count_c)
-        
+
+    gethome(message,up,left,count_r, count_c)
+    getspace(message,down,select,right,left,up)
+
     return()
 
 # Main Function
@@ -149,7 +169,8 @@ def main():
     while(1):
         # Get message text to be output
         message = str(input("\nEnter a message: ").lower())
-        
+        #message = message.ljust(len(message)+1, ' ')
+
         # Run printer methods
         printer(message,up,down,right,left,select)
     
