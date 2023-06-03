@@ -10,7 +10,7 @@ This Python program allows you to control a Roku device using a computer. It emu
 
 ## Installation
 
-1. Clone the repository or download the `typer.py` file to your local machine.
+1. Clone the repository or download the `rokutyper.py` file to your local machine.
 2. Make sure you have Python 3.x installed on your system.
 3. Install the `curl` command-line tool if it is not already installed. You can download it from the official website or use a package manager specific to your operating system.
 4. Ensure that your computer and the Roku device are connected to the same network.
@@ -19,9 +19,10 @@ This Python program allows you to control a Roku device using a computer. It emu
 
 1. Open a terminal or command prompt and navigate to the directory where `typer.py` is located.
 2. Run the program using the following command:
-'''shell
+
+```shell
 python rokutyper.py
-'''
+```
 
 3. The program will display a welcome message and prompt you to enter the Roku IP address. If you don't know the IP address of your Roku device, you can press enter to automate a quick nmap scan to find it.
 4. Once the IP address is entered, the program will establish a connection with the Roku device and navigate to the search menu.
